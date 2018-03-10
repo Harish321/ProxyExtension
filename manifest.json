@@ -16,7 +16,8 @@
       "contextMenus",
       "history",
       "background",
-      "proxy"
+      "proxy",
+      "storage"
   ],
   "content_scripts":[
     {
