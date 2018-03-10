@@ -19,14 +19,19 @@
       "proxy",
       "storage"
   ],
+  "icons":{
+      "16":"icon/icon.png",
+      "36":"icon/icon.png",
+      "48":"icon/icon.png"
+  },
   "content_scripts":[
     {
         "matches":["https://*/*","http://*/*"],
-        "js":["background.js"]
+        "js":["js/background.js"]
     }
 ],
 "web_accessible_resources":[
-    "background.js"
+    "js/background.js"
     ],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
   }
