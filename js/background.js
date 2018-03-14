@@ -1,57 +1,43 @@
 window.onload = function(){
-    chrome.storage.sync.get('value',function(results){
-        if(results!=null){
-            chrome.storage.sync.get('text',function (texts){
+            chrome.storage.sync.get('value',function (texts){
                 if(!texts!=null){
-                var button = document.getElementById('proxybutton');
-                button.textContent = texts.text;
-                if(texts.text=="On"){
-                    document.getElementById('main_body').style.backgroundColor="green";
+                var checkbox = document.getElementById('checkbox');
+                console.log(texts.value);
+                if(texts.value=="on"){
+                    document.getElementById("checkbox").checked = true;
                 }
                 else{
-                    document.getElementById('main_body').style.backgroundColor="red";
+                    document.getElementById("checkbox").checked = false;
                 }
                 }
             })
-            button.value = results.value;
-        }
-    })
 }
 
-var button = document.getElementById('proxybutton');
-var body = document.getElementById('main_body');
-button.onclick = function(){
+var checkbox = document.getElementById('checkbox');
+checkbox.onclick = function(){
     var config = {
-    mode: "fixed_servers",
-    rules: {
-        singleProxy: {
-        scheme: "socks5",
-        host: "127.0.0.1",
-        port: 8910
-      },
-      bypassList: ["foobar.com"]
-    }
-  };
-  if(button.value == 1){
-    button.value =2;
-    button.textContent = "Off";
-    body.style.backgroundColor = "red";
-    chrome.storage.sync.set({'value':2,'text':"Off"},function(){});
+        mode: "fixed_servers",
+        rules: {
+            singleProxy: {
+                scheme: "socks5",
+                host: "127.0.0.1",
+                port: 8910
+            },
+            bypassList: ["foobar.com"]
+        }
+    };
+  if(checkbox.checked){
+      console.log('Checked');
+    chrome.storage.sync.set({'value':"on"},function(){});
     chrome.proxy.settings.set(
     {value: config, scope: 'regular'},
     function() {});
   }
-  else{
-      button.value = 1;
-      button.textContent = "On";
-      body.style.backgroundColor= "green";
-      chrome.storage.sync.set({'value':1,'text':"On"},function(){});
+  else {
+      console.log('unchecked');
+      chrome.storage.sync.set({'value':"off"},function(){});
     chrome.proxy.settings.clear(
         {scope: 'regular'},
         function() {});
   }
-}
-function change(){
-    button.textContent = "Off";
-    button.value =2;
 }
